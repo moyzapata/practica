@@ -1,11 +1,25 @@
+import { Box, Container, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import * as React from 'react';
+
+const defaultTheme = createTheme();
 
 function HomeScreen() {
     return (
-        <div style={{ padding: 20 }}>
-            <h2>Home View</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adip.</p>
-        </div>
+        <ThemeProvider theme={defaultTheme}>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <p>Hola</p>
+                </Box>
+            </Container>
+        </ThemeProvider>
     );
 }
 
