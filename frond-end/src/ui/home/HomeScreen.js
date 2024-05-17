@@ -1,6 +1,9 @@
-import { Box, ButtonBase, Container, CssBaseline, Grid, Paper, ThemeProvider, Typography, createTheme } from '@mui/material';
+import { Box, ButtonBase, Container, CssBaseline, Grid, IconButton, Paper, ThemeProvider, Typography, createTheme } from '@mui/material';
 import * as React from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CommentIcon from '@mui/icons-material/Comment';
+import ShareIcon from '@mui/icons-material/Share';
 
 const defaultTheme = createTheme();
 
@@ -33,31 +36,33 @@ function HomeScreen() {
                                     <LockOutlinedIcon />
                                 </ButtonBase>
                             </Grid>
-                            <Grid item xs={12} sm container>
-                                <Grid item xs={12} direction="row" spacing={2}>
-                                    <Grid item xs>
-                                        <Typography variant="subtitle1" component="div">
-                                            $19.00
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs>
-                                        <Typography variant="subtitle1" component="div">
-                                            $19.00
-                                        </Typography>
-                                    </Grid>
+                            <Grid item container spacing={2}>
+                                <Grid item xs={4}>
+                                    <IconButton aria-label="like">
+                                        <FavoriteBorderIcon />
+                                    </IconButton>
                                 </Grid>
-                                <Grid item xs container direction="column" spacing={2}>
-                                    <Grid item xs>
-                                        <Typography gutterBottom variant="subtitle1" component="div">
-                                            Standard license
-                                        </Typography>
-                                        <Typography variant="body2" gutterBottom>
-                                            Full resolution 1920x1080 • JPEG
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            ID: 1030114
-                                        </Typography>
-                                    </Grid>
+                                <Grid item xs={4}>
+                                    <IconButton aria-label="comment">
+                                        <CommentIcon />
+                                    </IconButton>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <IconButton aria-label="share">
+                                        <ShareIcon />
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+                            <Grid item container spacing={2}>
+                                <Grid item xs>
+                                    <Typography variant="subtitle1" component="div">
+                                        Contenido Contenido Contenido Contenido Contenido Contenido Contenido
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs>
+                                    <Typography variant="subtitle1" component="div">
+                                        Contenido Contenido Contenido Contenido Contenido Contenido Contenido
+                                    </Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
