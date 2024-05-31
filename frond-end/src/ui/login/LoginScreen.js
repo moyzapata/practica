@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -16,6 +15,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios";
 import { validationLogin } from "../../components/forms/validation";
 import { Alert, Snackbar } from "@mui/material";
+import { useState, createContext, useContext } from 'react';
+import { authProvider } from '../../core/auth'
+import {
+    useNavigate,
+    useLocation,
+    Navigate,
+} from 'react-router-dom';
 
 const URI = 'http://localhost:8000/users/'
 
@@ -32,6 +38,52 @@ function Copyright(props) {
     );
 }
 
+let AuthContext = createContext(null);
+
+export function AuthProvider(_a) {
+    var children = _a.children;
+    var _b = useState(null), user = _b[0], setUser = _b[1];
+    var _c = useState(null), id = _c[0], setId = _c[1];
+    var signin = function (newUser, newId, callback) {
+        return authProvider.signin(function () {
+            setUser(newUser);
+            setId(newId);
+            callback();
+        });
+    };
+
+    var signout = function () {
+        return authProvider.signout(function () {
+            setUser(null);
+        });
+    };
+
+    var data = JSON.parse(localStorage.getItem('login'))
+
+    if (data !== null) {
+        id = data.id
+        user = data.correo
+    }
+    var value = { id: id, user: user, signin: signin, signout: signout };
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+    return useContext(AuthContext);
+}
+
+export function RequireAuth(_a) {
+    var children = _a.children;
+    var auth = useAuth();
+    let location = useLocation();
+
+    if (!auth.user) {
+        return <Navigate to="/login" state={{ from: location }} replace />;
+    }
+
+    return children;
+}
+
 const defaultTheme = createTheme();
 
 function LoginScreen() {
@@ -41,6 +93,7 @@ function LoginScreen() {
     });
     const { open, message } = state;
     const navigate = useNavigate();
+    let auth = useAuth();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -54,7 +107,9 @@ function LoginScreen() {
                             break;
                         case 200:
                             setState({ open: true, message: res.data.success })
-                            navigate('/posts')
+                            auth.signin(res.data.correo, res.data.id, () => {
+                                navigate('/posts')
+                            })
                             break;
                         case 204:
                             setState({ open: true, message: res.data.error })
